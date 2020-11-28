@@ -27,7 +27,7 @@ The file `bin/config.php` contains a macro called `EXTENSIONS`, feel free to cha
 ### It says I can't upload my file, that the size exceeds the limit!
 No worries. You just have to change the `upload_max_filesize` and `post_max_size` in your **php.ini** file, and restart your apache server (`post_max_size` should have a greater value than `upload_max_filesize`).
 
-## Where is the php.ini file ????
+### Where is the php.ini file ????
 Just add this in top of your `index.php`:
 ```php
 echo phpinfo();
