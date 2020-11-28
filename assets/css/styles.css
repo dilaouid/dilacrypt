@@ -1,0 +1,26 @@
+body {
+  background: url('../img/bg.jpg');background-size: cover;
+}
+
+.row {
+  font-family: Aldrich, sans-serif;
+}
+
+#boxform {
+  padding: 25px;
+  background: rgba(0,0,0,0.3);
+  border-style: solid;
+  border-radius: 40px;
+}
+
+.selectRadio {
+  color: white;
+}
+
+#importFileStyleBtn {
+  filter: saturate(66%);
+}
+
+#process {
+  margin-top: 32px;
+}
