@@ -17,7 +17,7 @@ function dilacrypt($key, $buffer, $mode)
     return implode('', $data);
 }
 
-if (isset($_POST['submit'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $path       = $_FILES["file"]["tmp_name"];
     $key        = trim($_POST['key']);
     $contents   = file_get_contents($path);
@@ -42,16 +42,20 @@ if (isset($_POST['submit'])) {
         throw new Exception(WRONG_EXTENSION);
     else
         $ext = $_POST['extension'];
-        
+    
+    $uploadFilename = $_FILES['file']['name'];
     if ($_POST['mode'] == ENCRYPT) {
         $options = [
-            "filename" => pathinfo($_FILES['file']['name'], PATHINFO_FILENAME) . '.dea',
+            "filename" => pathinfo($uploadFilename, PATHINFO_FILENAME) . '.dea',
             "mode"     => ENCRYPT,
             'contents' => base64_encode($contents),
         ];
     } else if ($_POST['mode'] == DECRYPT) {
+        if (pathinfo($uploadFilename)['extension'] !== 'dea') {
+            throw new Exception(WRONG_DECRYPT_EXTENSION);
+        }
         $options = [
-            "filename" => pathinfo($_FILES['file']['name'], PATHINFO_FILENAME) . '.' . $ext,
+            "filename" => pathinfo($uploadFilename, PATHINFO_FILENAME) . '.' . $ext,
             "mode"     => DECRYPT,
             'contents' => $contents,
         ];
