@@ -1,7 +1,7 @@
 <?php
 
-require ('bin/config.php');
-require ('bin/process.php');
+require ('src/config.php');
+require ('src/process.php');
 
 ?>
 
