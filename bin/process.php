@@ -2,15 +2,11 @@
 
 function dilacrypt($key, $buffer, $mode)
 {
-    if (strlen($key) < 1 || strlen($buffer) < 1)
-        return null;
     $lenkey = strlen($key);
     $data   = [];
     $j      = 0;
     for ($i=0;$i<strlen($buffer);$i++)
     {
-        if (!in_array($mode, [ENCRYPT, DECRYPT]))
-            return null;
         if ($lenkey == $j) $j = 0;
         if ($mode == ENCRYPT)
             $data[$i] = chr(ord($buffer[$i]) + ord($key[$j]) + strlen($key));
@@ -26,13 +22,27 @@ if (isset($_POST['submit'])) {
     $key        = trim($_POST['key']);
     $contents   = file_get_contents($path);
 
+    $fileError = $_FILES["file"]["error"];
+    switch($fileError) {
+        case UPLOAD_ERR_INI_SIZE:
+            throw new Exception(MAX_SIZE);
+            break;
+        case UPLOAD_ERR_NO_FILE:
+            throw new Exception(NO_FILE_UPLOADED);
+            break;
+        case UPLOAD_ERR_CANT_WRITE:
+            throw new Exception(CANT_WRITE);
+            break;
+        default:
+            break;
+    }
     if (strlen($key) < 1 || strlen($contents) < 1)
         throw new Exception(WRONG_LENGTH);
     if (!in_array($_POST['extension'], EXTENSIONS))
         throw new Exception(WRONG_EXTENSION);
     else
         $ext = $_POST['extension'];
-
+        
     if ($_POST['mode'] == ENCRYPT) {
         $options = [
             "filename" => pathinfo($_FILES['file']['name'], PATHINFO_FILENAME) . '.dea',
