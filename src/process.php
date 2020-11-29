@@ -18,9 +18,6 @@ function dilacrypt($key, $buffer, $mode)
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $path       = $_FILES["file"]["tmp_name"];
-    $key        = trim($_POST['key']);
-    $contents   = file_get_contents($path);
 
     $fileError = $_FILES["file"]["error"];
     switch($fileError) {
@@ -36,6 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         default:
             break;
     }
+
+    $path       = $_FILES["file"]["tmp_name"];
+    $key        = trim($_POST['key']);
+    $contents   = file_get_contents($path);
+
     if (strlen($key) < 1 || strlen($contents) < 1)
         throw new Exception(WRONG_LENGTH);
     if (!in_array($_POST['extension'], EXTENSIONS))
