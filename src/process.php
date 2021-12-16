@@ -9,12 +9,14 @@ function dilacrypt($key, $buffer, $mode)
     {
         if ($lenkey == $j) $j = 0;
         if ($mode == ENCRYPT)
-            $data[$i] = chr(ord($buffer[$i]) + ord($key[$j]) + strlen($key));
-        else if ($mode == DECRYPT)
             $data[$i] = chr(ord($buffer[$i]) - ord($key[$j]) - strlen($key));
+        else if ($mode == DECRYPT)
+            $data[$i] = chr(ord($buffer[$i]) + ord($key[$j]) + strlen($key));
         $j++;
     }
-    return implode('', $data);
+    $joinedBuffer = implode('', $data);
+    $gz = $mode == ENCRYPT ? gzencode($joinedBuffer) : $joinedBuffer;
+    return $gz;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -64,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         throw new Exception(WRONG_MODE);
     }
+    if ($options['mode'] == DECRYPT) $options['contents'] = gzdecode($options['contents']);
     $contents   = dilacrypt(trim($_POST['key']), $options['contents'], $options['mode']);
     if ($options['mode'] == DECRYPT) {
         $contents = base64_decode($contents);
