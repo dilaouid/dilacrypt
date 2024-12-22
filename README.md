@@ -5,7 +5,7 @@ A file encrypter in PHP, inspired by the Vigenere method.
 **This project is made to be runned in a local server ! You can deploy it in an online server, but it won't be safe for you.**
 Clone this repo in your '*www*' folder of wamp or '*htdocs*' in xampp. You can also use this command line to run the project:
 ```shell
-php -S 127.0.0.1:80 dilacrypt/index.php
+php -S 127.0.0.1:80 dilacrypt/
 ```
 Right there, you can navigate to `127.0.0.1:80` to use dilacrypt. Make sure that you have PHP installed in your machine first.
 
